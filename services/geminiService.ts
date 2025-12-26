@@ -2,12 +2,12 @@ import { GoogleGenAI } from "@google/genai";
 import { Candidate } from "../types";
 
 export const analyzeElectionTrends = async (candidates: Candidate[]) => {
-  // Note: process.env.API_KEY is replaced with the real key during Netlify deployment
+  // During Netlify deployment, the string 'process.env.API_KEY' is replaced with the actual key value.
   const apiKey = process.env.API_KEY;
 
   if (!apiKey || apiKey === "undefined" || apiKey === "PROCESS_ENV_API_KEY") {
-    console.error("Gemini API Key is missing. Please set it in your Netlify environment variables.");
-    return "Error: AI Analysis is unavailable because the API Key is not configured.";
+    console.error("Gemini API Key is missing. Set 'API_KEY' in Netlify Environment Variables.");
+    return "Error: AI Analysis is unavailable. Please check the Netlify environment variable configuration.";
   }
 
   const ai = new GoogleGenAI({ apiKey });
@@ -43,6 +43,6 @@ export const analyzeElectionTrends = async (candidates: Candidate[]) => {
     return response.text || "Unable to generate analysis at this time.";
   } catch (error) {
     console.error("Gemini analysis error:", error);
-    return "Error connecting to AI analysis service. Check your API key permissions.";
+    return "Error connecting to AI analysis service. Verify your API key and Netlify build settings.";
   }
 };
